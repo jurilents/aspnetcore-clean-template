@@ -1,5 +1,5 @@
-﻿using CleanTemplate.Core.Extensions;
-using CleanTemplate.Core.Tools;
+﻿using System.Reflection;
+using CleanTemplate.Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanTemplate.Core.DependencyInjection;
@@ -8,7 +8,7 @@ public static class ServiceCollectionExtensions
 {
 	public static void RegisterServicesFromAssembly(this IServiceCollection services, string assemblyName)
 	{
-		IEnumerable<Type> serviceTypes = AssemblyProvider.GetTypes(assemblyName);
+		IEnumerable<Type> serviceTypes = Assembly.Load(assemblyName).GetTypes();
 
 		foreach (Type implType in serviceTypes)
 		{

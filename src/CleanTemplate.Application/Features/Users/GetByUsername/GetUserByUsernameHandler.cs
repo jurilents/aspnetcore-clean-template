@@ -1,12 +1,12 @@
-﻿using CleanTemplate.Application.Abstractions;
-using CleanTemplate.Core.Abstractions.Context;
+﻿using CleanTemplate.Core.Abstractions.Context;
 using CleanTemplate.Data.Entities;
 using CleanTemplate.Data.Extensions;
 using Mapster;
+using MediatR;
 
 namespace CleanTemplate.Application.Features.Users;
 
-internal class GetUserByUsernameHandler : IQueryHandler<GetUserByUsernameQuery, User>
+internal class GetUserByUsernameHandler : IRequestHandler<GetUserByUsernameQuery, User>
 {
 	private readonly IDatabaseContext _database;
 	public GetUserByUsernameHandler(IDatabaseContext database) => _database = database;

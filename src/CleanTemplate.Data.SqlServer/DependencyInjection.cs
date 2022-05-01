@@ -1,5 +1,4 @@
 ﻿using CleanTemplate.Core.Abstractions.Context;
-using CleanTemplate.Core.Extensions;
 using CleanTemplate.Data.Context;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,8 +15,6 @@ public static class DependencyInjection
 
 	private static void AddDbContext(this IServiceCollection services, IConfiguration configuration)
 	{
-		if (configuration.IsTesting()) return;
-
 		var contextFactory = new SqlServerDbContextFactory();
 		services.AddDbContext<SqlServerDbContext>(cob => contextFactory.ConfigureContextOptions(cob));
 

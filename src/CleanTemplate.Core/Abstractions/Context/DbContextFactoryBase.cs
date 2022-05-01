@@ -27,7 +27,7 @@ public abstract class DbContextFactoryBase<TContext> : IDesignTimeDbContextFacto
 	/// <summary>
 	/// Relative path to the json file with connection string configuration.
 	/// </summary>
-	public abstract string SettingsPath { get; }
+	public virtual string SettingsPath => throw new NotImplementedException();
 
 	/// <summary>
 	///	Connection string used for <see cref="TContext" />.

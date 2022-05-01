@@ -1,7 +1,5 @@
 ﻿using CleanTemplate.Core.Abstractions.Entities;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CleanTemplate.Data.Entities;
 
@@ -14,15 +12,4 @@ public class AppUserClaim : IdentityUserClaim<long>, IEntity
 
 
 	public virtual AppUser? User { get; set; }
-}
-
-internal class AppUserClaimConfiguration : IEntityTypeConfiguration<AppUserClaim>
-{
-	public void Configure(EntityTypeBuilder<AppUserClaim> builder)
-	{
-		builder.Property(e => e.ClaimType).HasMaxLength(32);
-		builder.Property(e => e.ClaimValue).HasMaxLength(128);
-
-		builder.ToTable("AppUserClaims");
-	}
 }

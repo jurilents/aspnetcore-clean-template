@@ -14,20 +14,22 @@ namespace CleanTemplate.Infrastructure.Services;
 public class JwtService : IJwtService
 {
 	private readonly IDatabaseContext _database;
-	private readonly RefreshTokenManager _refreshTokenManager;
+	private readonly RefreshTokenGenerator _refreshTokenGenerator;
 	private readonly AccessTokenGenerator _accessTokenGenerator;
 
-	public JwtService(IDatabaseContext database, AccessTokenGenerator accessTokenGenerator, RefreshTokenManager refreshTokenManager)
+	public JwtService(IDatabaseContext database, AccessTokenGenerator accessTokenGenerator, RefreshTokenGenerator refreshTokenGenerator)
 	{
 		_database = database;
-		_refreshTokenManager = refreshTokenManager;
+		_refreshTokenGenerator = refreshTokenGenerator;
 		_accessTokenGenerator = accessTokenGenerator;
 	}
 
 	public async Task<AuthResult> GenerateAsync(AppUser user, CancellationToken cancel)
 	{
+		if (user is null) throw new InternalServerException($"Invalid argument '{nameof(user)}'");
+
 		(string? accessToken, DateTime accessTokenExpires) = await _accessTokenGenerator.GenerateAsync(user, cancel);
-		(string? refreshToken, DateTime refreshTokenExpires) = await _refreshTokenManager.GenerateAsync(user, cancel);
+		(string? refreshToken, DateTime refreshTokenExpires) = await _refreshTokenGenerator.GenerateAsync(user, cancel);
 
 		return new AuthResult
 		{
@@ -44,7 +46,7 @@ public class JwtService : IJwtService
 		var refreshTokens = _database.Set<AppRefreshToken>();
 
 		var token = await refreshTokens.Where(rt => rt.Token == refreshToken).Include(rt => rt.User).FirstOr404Async(cancel);
-		if (!_refreshTokenManager.IsValid(token))
+		if (!_refreshTokenGenerator.IsValid(token))
 			throw new ValidationFailedException("Refresh token is invalid.");
 
 		var result = await GenerateAsync(token.User!, cancel);

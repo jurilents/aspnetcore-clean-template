@@ -1,10 +1,10 @@
-﻿using CleanTemplate.Application.Abstractions;
-using CleanTemplate.Application.Extensions;
+﻿using CleanTemplate.Application.Extensions;
 using FluentValidation;
+using MediatR;
 
 namespace CleanTemplate.Application.Features.Users;
 
-public class GetUserByUsernameQuery : IQuery<User>
+public class GetUserByUsernameQuery : IRequest<User>
 {
 	/// <example>aspadmin</example>
 	public string Username { get; init; }

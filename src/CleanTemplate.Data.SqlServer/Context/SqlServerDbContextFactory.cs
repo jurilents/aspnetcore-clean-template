@@ -6,7 +6,7 @@ namespace CleanTemplate.Data.Context;
 public class SqlServerDbContextFactory : DbContextFactoryBase<SqlServerDbContext>
 {
 	public override string SelectedConnectionName => "LocalSqlServer";
-	public override string SettingsPath => "../../app/CleanTemplate.Web.API/appsettings.json";
+	public override string SettingsPath => "../../app/CleanTemplate.Api/appsettings.json";
 
 
 	public override SqlServerDbContext CreateDbContext(string[] args) => new(CreateContextOptions());

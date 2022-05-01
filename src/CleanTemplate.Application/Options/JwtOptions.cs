@@ -2,7 +2,7 @@
 
 namespace CleanTemplate.Application.Options;
 
-public record JwtOptions
+public class JwtOptions
 {
 	public SecurityKey? Secret { get; set; }
 	public TimeSpan AccessTokenLifetime { get; set; }

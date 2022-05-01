@@ -10,7 +10,7 @@ public class AuthCompleteCommand : IRequest<AuthResult>
 	public string Login { get; init; } = default!;
 
 	/// <example>aspX1234</example>
-	public string? Password { get; init; } = default!;
+	public string? Password { get; init; }
 }
 
 public class AuthCompleteCommandValidator : AbstractValidator<AuthCompleteCommand>

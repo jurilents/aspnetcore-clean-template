@@ -26,7 +26,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\CleanTemplate.Data\CleanTemplate.Data.csproj" />
+		<ProjectReference Include="..\CleanTemplate.Core\CleanTemplate.Core.csproj" />
 	</ItemGroup>
 
 </Project>

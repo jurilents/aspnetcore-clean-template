@@ -1,14 +1,14 @@
-﻿using CleanTemplate.Application.Abstractions;
-using CleanTemplate.Application.Extensions;
+﻿using CleanTemplate.Application.Extensions;
 using CleanTemplate.Core.Constants;
 using CleanTemplate.Core.Exceptions;
 using CleanTemplate.Data.Entities;
 using Mapster;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 
 namespace CleanTemplate.Application.Features.Users;
 
-public class CreateUserHandler : ICommandHandler<CreateUserCommand, User>
+public class CreateUserHandler : IRequestHandler<CreateUserCommand, User>
 {
 	private readonly UserManager<AppUser> _userManager;
 	public CreateUserHandler(UserManager<AppUser> userManager) => _userManager = userManager;

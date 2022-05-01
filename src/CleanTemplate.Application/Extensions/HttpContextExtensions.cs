@@ -1,5 +1,6 @@
 using System.Net;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
 
 namespace CleanTemplate.Application.Extensions;
 
@@ -10,18 +11,21 @@ public static class HttpContextExtensions
 	/// </summary>
 	public static IPAddress GetIPAddress(this HttpContext httpContext)
 	{
-		var headers = httpContext.Request.Headers.ToList();
+		var headerValue = httpContext.Request.Headers["X-Forwarded-For"];
 
-		if (!headers.Exists(h => h.Key == "X-Forwarded-For"))
+		if (headerValue == StringValues.Empty)
 		{
 			// this will always have a value (running locally in development won't have the header)
 			return httpContext.Request.HttpContext.Connection.RemoteIpAddress!;
 		}
 
 		// when running behind a load balancer you can expect this header
-		var header = headers.First(h => h.Key == "X-Forwarded-For").Value.ToString();
+		var header = headerValue.ToString();
+		
 		// in case the IP contains a port, remove ':' and everything after
-		return IPAddress.Parse(header.Remove(header.IndexOf(':')));
+		int sepIndex = header.IndexOf(':');
+		header = sepIndex == -1 ? header : header.Remove(sepIndex);
+		return IPAddress.Parse(header);
 	}
 
 	/// <summary>

@@ -19,12 +19,6 @@ public static class AssemblyProvider
 	public static readonly Func<Assembly, bool> IsApplicationAssembly = asm =>
 			asm.FullName != null && asm.FullName.StartsWith(ProjectRootName, StringComparison.OrdinalIgnoreCase);
 
-	public static IEnumerable<Type> GetTypes(string assemblyName) => LoadAssemblies()
-			.Where(IsApplicationAssembly)
-			.Where(a => a.FullName!.StartsWith(assemblyName, StringComparison.OrdinalIgnoreCase))
-			.SelectMany(a => a.GetTypes())
-			.ToList();
-
 	public static IEnumerable<Type> GetImplementations<TBase>()
 	{
 		Type baseType = typeof(TBase);

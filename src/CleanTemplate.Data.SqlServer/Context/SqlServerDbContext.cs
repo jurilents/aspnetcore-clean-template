@@ -1,6 +1,7 @@
-﻿using CleanTemplate.Core.Abstractions.Context;
-using CleanTemplate.Data.DataSeeding;
+﻿#pragma warning disable CS8618
+using CleanTemplate.Core.Abstractions.Context;
 using CleanTemplate.Data.Entities;
+using CleanTemplate.Data.SeedData;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,8 +20,7 @@ public class SqlServerDbContext : IdentityDbContext<AppUser, AppRole, long,
 	protected override void OnModelCreating(ModelBuilder builder)
 	{
 		base.OnModelCreating(builder);
-		var entitiesAssembly = GetType().Assembly;
-		builder.ApplyConfigurationsFromAssembly(entitiesAssembly);
+		builder.ApplyConfigurationsFromAssembly(GetType().Assembly);
 
 		builder.SeedRoles();
 		builder.SeedDefaultUser();

@@ -40,7 +40,9 @@ public static class QueryableExtensions
 		if (string.IsNullOrEmpty(sorting))
 			return queryable;
 
-		return sorting.Split(',').Aggregate(queryable, (current, sortingCase) => current.OrderBy(sortingCase));
+		foreach (string s in sorting.Split(',')) 
+			queryable = queryable.OrderBy(s);
+		return queryable;
 	}
 
 	public static IQueryable<TEntity> ApplyPaging<TEntity>(this IQueryable<TEntity> queryable, int? skip, int? take)
