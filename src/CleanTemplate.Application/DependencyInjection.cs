@@ -2,7 +2,6 @@
 using System.Text;
 using CleanTemplate.Application.Features.Auth;
 using CleanTemplate.Application.Options;
-using CleanTemplate.Core.Constants;
 using CleanTemplate.Data.Context;
 using CleanTemplate.Data.Entities;
 using FluentValidation.AspNetCore;
@@ -31,6 +30,14 @@ public static class DependencyInjection
 		services.AddCustomMediatR();
 	}
 
+	private static void AddIdentityServices(this IServiceCollection services, IConfiguration configuration)
+	{
+		services.AddIdentity<AppUser, AppRole>(configuration.GetRequiredSection("Identity").Bind)
+				.AddEntityFrameworkStores<SqlServerDbContext>()
+				.AddTokenProvider("Default", typeof(EmailTokenProvider<AppUser>));
+
+		services.Configure<PasswordHasherOptions>(option => option.IterationCount = 10000);
+	}
 
 	public static void ConfigureFluentValidation(FluentValidationMvcConfiguration options)
 	{
@@ -49,15 +56,6 @@ public static class DependencyInjection
 		});
 
 		services.Configure<LocalizationOptions>(configuration.GetSection("Localization"));
-	}
-
-	private static void AddIdentityServices(this IServiceCollection services, IConfiguration configuration)
-	{
-		services.AddIdentity<AppUser, AppRole>(configuration.GetRequiredSection("Identity").Bind)
-				.AddEntityFrameworkStores<SqlServerDbContext>()
-				.AddTokenProvider(TokenProviders.Default, typeof(EmailTokenProvider<AppUser>));
-
-		services.Configure<PasswordHasherOptions>(option => option.IterationCount = 10000);
 	}
 
 	private static void RegisterMappings(this IServiceCollection services)

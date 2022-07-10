@@ -10,31 +10,30 @@ using NLog.Extensions.Logging;
 using NLog.Web;
 using ILogger = NLog.ILogger;
 
+
+ILogger logger = ConfigureNLog();
+
+try
 {
-	ILogger logger = ConfigureNLog();
+	var builder = WebApplication.CreateBuilder(args);
+	builder.Configuration.AddJsonFile("appsettings.Secrets.json");
 
-	try
-	{
-		var builder = WebApplication.CreateBuilder(args);
-		builder.Configuration.AddJsonFile("appsettings.Secrets.json");
+	ConfigureBuilder(builder);
 
-		ConfigureBuilder(builder);
+	var app = builder.Build();
+	JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+	ConfigureWebApp(app);
 
-		var app = builder.Build();
-		JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-		ConfigureWebApp(app);
-
-		app.Run();
-	}
-	catch (Exception e)
-	{
-		logger.Fatal(e);
-	}
-	finally
-	{
-		logger.Info("Application is now stopping");
-		LogManager.Shutdown();
-	}
+	app.Run();
+}
+catch (Exception e)
+{
+	logger.Fatal(e);
+}
+finally
+{
+	logger.Info("Application is now stopping");
+	LogManager.Shutdown();
 }
 
 
@@ -44,7 +43,7 @@ static void ConfigureBuilder(WebApplicationBuilder builder)
 	builder.Logging.ClearProviders();
 	builder.Logging.AddNLogWeb(LogManager.Configuration);
 
-	builder.Services.AddSqlServerDatabase(builder.Configuration);
+	builder.Services.AddSqlServerDatabase();
 	builder.Services.AddApplication(builder.Configuration);
 	builder.Services.AddInfrastructure();
 	builder.Services.AddWebApi(builder.Configuration);

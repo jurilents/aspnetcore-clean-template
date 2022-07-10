@@ -7,7 +7,7 @@
 1. At the first, you need to create user.
 
 ```http request
-POST /v1/user
+POST /v1/users
 Content-Type: application/json
 ```
 

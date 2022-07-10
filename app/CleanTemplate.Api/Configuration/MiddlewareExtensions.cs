@@ -1,5 +1,5 @@
 ﻿using CleanTemplate.Api.Middleware;
-using CleanTemplate.Core.Tools;
+using CleanTemplate.Core.DependencyInjection;
 
 namespace CleanTemplate.Api.Configuration;
 

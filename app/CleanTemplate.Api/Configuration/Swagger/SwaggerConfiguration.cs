@@ -52,10 +52,4 @@ public class SwaggerConfiguration : IConfigureNamedOptions<SwaggerGenOptions>
 				yield return Path.Combine(AppContext.BaseDirectory, xmlDocsFile);
 		}
 	}
-
-	private static string NameSchemaIdSelector(Type type) =>
-			type.FullName!
-					.Replace("CleanTemplate.Core.", "")
-					.Replace("CleanTemplate.Application.Features.", "")
-					.Replace("CleanTemplate.Application.", "");
 }

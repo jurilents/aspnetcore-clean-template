@@ -11,16 +11,17 @@
 			"async": true,
 			"logFile": {
 				"type": "File",
-				"fileName": "${basedir}/logs/${shortdate}.tsv",
+				"fileName": "${basedir}/logs/${shortdate}.log",
 				"layout": {
 					"type": "CsvLayout",
 					"delimiter": "Tab",
+					"withHeader": true,
 					"columns": [
-						{ "layout": "${time}" },
-						{ "layout": "|${level:uppercase=true}| " },
-						{ "layout": "[${logger:shortName=true}] " },
-						{ "layout": "${message}", "quoting": "All" },
-						{ "layout": "${exception:format=ToString}", "quoting": "All" }
+						{ "name": "Date&Time", "layout": "${time}" },
+						{ "name": "Level", "layout": "|${level:uppercase=true}| " },
+						{ "name": "Logger", "layout": "[${logger:shortName=true}] " },
+						{ "name": "Message", "layout": "${message}", "quoting": "All" },
+						{ "name": "Exception", "layout": "${exception:format=ToString}", "quoting": "All" }
 					]
 				}
 			},
@@ -30,10 +31,11 @@
 				"layout": {
 					"type": "CsvLayout",
 					"delimiter": "Tab",
+					"withHeader": true,
 					"columns": [
 						{ "name": "Date&Time", "layout": "${time}" },
 						{ "name": "Level", "layout": "|${level:uppercase=true}| " },
-						{ "name": "Logger", "layout": "[${logger:shortName=true}] " },
+						{ "name": "Logger", "layout": "[${logger}] " },
 						{ "name": "Message", "layout": "${message}", "quoting": "All" },
 						{ "name": "Exception", "layout": "${exception:format=ToString}", "quoting": "All" }
 					]
@@ -73,7 +75,6 @@
 			}
 		},
 		"rules": [
-			{ "logger": "Microsoft.*", "minLevel": "Warn", "final": true },
 			{ "logger": "*", "minLevel": "Trace", "writeTo": "logConsole" },
 			{ "logger": "*", "minLevel": "Trace", "writeTo": "logFile" },
 			{ "logger": "*", "minLevel": "Warn", "writeTo": "logFileErrors" }

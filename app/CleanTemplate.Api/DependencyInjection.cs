@@ -36,7 +36,7 @@ public static class DependencyInjection
 	}
 
 
-	public static void ConfigureMvcOptions(MvcOptions options)
+	private static void ConfigureMvcOptions(MvcOptions options)
 	{
 		// To convert ControllerClassNames to kebab-case-style routes
 		options.Conventions.Add(new RouteTokenTransformerConvention(new KebabCaseNamingConvention()));

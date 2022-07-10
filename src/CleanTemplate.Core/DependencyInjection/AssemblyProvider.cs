@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace CleanTemplate.Core.Tools;
+namespace CleanTemplate.Core.DependencyInjection;
 
 /// <summary>
 /// DO NOT OPEN THIS CLASS!!!

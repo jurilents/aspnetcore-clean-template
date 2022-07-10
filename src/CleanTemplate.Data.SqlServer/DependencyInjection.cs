@@ -7,13 +7,12 @@ namespace CleanTemplate.Data;
 
 public static class DependencyInjection
 {
-	public static void AddSqlServerDatabase(this IServiceCollection services, IConfiguration configuration)
+	public static void AddSqlServerDatabase(this IServiceCollection services)
 	{
-		services.AddDbContext(configuration);
+		services.AddDbContext();
 	}
 
-
-	private static void AddDbContext(this IServiceCollection services, IConfiguration configuration)
+	private static void AddDbContext(this IServiceCollection services)
 	{
 		var contextFactory = new SqlServerDbContextFactory();
 		services.AddDbContext<SqlServerDbContext>(cob => contextFactory.ConfigureContextOptions(cob));
